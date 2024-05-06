@@ -61,4 +61,12 @@ plt.title('Subsampled Occupied Areas')
 plt.xlabel('X (m)')
 plt.ylabel('Y (m)')
 plt.gca().invert_yaxis()
+
+# Save the plot as an image file
+plot_file = "subsampled_plot.png"
+plt.savefig(plot_file)
+
+# Show the plot
 plt.show()
+
+print(f"Plot saved as '{plot_file}'")
