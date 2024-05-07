@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ubuntu/git/T11_multi_warehouse/main_ws/install/setup.sh
