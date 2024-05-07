@@ -61,6 +61,11 @@ plt.xlabel('X (m)')
 plt.ylabel('Y (m)')
 plt.gca().invert_yaxis()
 
+# Add specified coordinates to the image
+for coord in specified_coordinates:
+    x, y = coord
+    plt.text(x, y - 0.1, f'({x}, {y})', color='blue', fontsize=8)
+
 # Save the plot as an image file
 plot_file = "subsampled_plot.png"
 plt.savefig(plot_file)
