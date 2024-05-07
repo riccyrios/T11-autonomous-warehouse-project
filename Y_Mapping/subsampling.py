@@ -19,7 +19,6 @@ origin_y = origin[1]
 width = map_image.shape[1]
 height = map_image.shape[0]
 
-
 # Perform clustering-based subsampling
 def cluster_subsampling(map_image, resolution, origin_x, origin_y, num_clusters):
     occupied_pixels = np.argwhere(map_image == 0)  # Find coordinates of occupied pixels
@@ -44,20 +43,20 @@ num_clusters = 100  # Adjust as needed
 # Perform clustering-based subsampling
 subsampled_coordinates = cluster_subsampling(map_image, resolution, origin_x, origin_y, num_clusters)
 
-# Write subsampled coordinates to a new file
-output_file_subsampled = "subsampled_coordinates_cart.txt"
-with open(output_file_subsampled, "w") as f:
-    for coord in subsampled_coordinates:
-        x_rounded = round(coord[0], 2)
-        y_rounded = round(coord[1], 2)
-        f.write(f"X: {x_rounded}, Y: {y_rounded}\n")
+# Define the specified coordinates
+specified_coordinates = [
+    (-2.913, 4.222), (-2.532, 4.162), (-0.890, 4.022), (-0.460, 3.972),
+    (1.081, 3.892), (1.461, 3.852), (1.431, 3.342), (1.051, 3.392),
+    (-0.440, 3.532), (-0.910, 3.572), (-2.532, 3.722), (-2.913, 3.762),
+    (-3.093, 2.181), (-2.662, 2.161), (-1.061, 1.981), (-0.660, 1.951),
+    (0.890, 1.821), (1.251, 1.841), (1.231, 1.290), (0.840, 1.340)
+]
 
-print(f"Subsampled coordinates have been saved to '{output_file_subsampled}'")
-
-# Optionally, visualize the subsampled points
+# Optionally, visualize the subsampled points and specified coordinates
 plt.figure(figsize=(10, 10))
 plt.scatter([coord[0] for coord in subsampled_coordinates], [coord[1] for coord in subsampled_coordinates], color='purple', s=5)
-plt.title('Subsampled Occupied Areas')
+plt.scatter([coord[0] for coord in specified_coordinates], [coord[1] for coord in specified_coordinates], color='blue', s=50, marker='x')
+plt.title('Subsampled Occupied Areas with Specified Coordinates')
 plt.xlabel('X (m)')
 plt.ylabel('Y (m)')
 plt.gca().invert_yaxis()
