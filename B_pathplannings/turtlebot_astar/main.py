@@ -19,15 +19,15 @@ def main():
   # print('')
   clearance = 0.2
   print('The default clearance value is:', clearance)
-  start_point = eval(input('Please enter the start coordinates for the robot in this format - [X_coord, Y_coord, Theta]:'))
+  start_point = eval(input('Please enter the start coordinates for the robot in this format - [x, y, theta]:'))
   while not utils.check_node(start_point, clearance):
-    start_point = eval(input('Please enter the start coordinates in this format - [X_coord, Y_coord, Theta]:'))
+    start_point = eval(input('Please enter the start coordinates in this format - [x, y, theta]:'))
   start_circle = plt.scatter(start_point[0], start_point[1], c = 'b')
   print('The start point you entered is:', start_point)
   print('')  
-  goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [X_coord, Y_coord]:'))
+  goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [x, y]:'))
   while not utils.check_node(goal_point, clearance):
-    goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [X_coord, Y_coord]:'))
+    goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [x, y]:'))
   goal_circle = plt.scatter(goal_point[0], goal_point[1], c = 'y')
   print('The goal point you entered is:', goal_point)
   print('')
