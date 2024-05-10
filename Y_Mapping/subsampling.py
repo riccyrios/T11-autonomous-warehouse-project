@@ -38,11 +38,17 @@ def cluster_subsampling(map_image, resolution, origin_x, origin_y, num_clusters)
     return cluster_centers.tolist()
 
 # Define the number of clusters for subsampling
-num_clusters = 100  # Adjust as needed
+num_clusters = 200  # Adjust as needed
 
 # Perform clustering-based subsampling
 subsampled_coordinates = cluster_subsampling(map_image, resolution, origin_x, origin_y, num_clusters)
 
+# Save subsampled coordinates to a text file
+with open('subsampled_coordinates.txt', 'w') as txt_file:
+    for coord in subsampled_coordinates:
+        rounded_coord = [round(value, 2) for value in coord]  # Round each coordinate to two decimal points
+        txt_file.write(f"{rounded_coord[0]}, {rounded_coord[1]}\n")
+        
 # Define the specified coordinates
 specified_coordinates = [
     (-2.913, 4.222), (-2.532, 4.162), (-0.890, 4.022), (-0.460, 3.972),
