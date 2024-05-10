@@ -1,2 +1,0 @@
-turtlebot3_astar
--DCATKIN_DEVEL_PREFIX=/home/bananabreadbo/git/path-planning-astar-turtlebot/Phase_4/turtlebot3_ws/devel -DCMAKE_INSTALL_PREFIX=/home/bananabreadbo/git/path-planning-astar-turtlebot/Phase_4/turtlebot3_ws/install -G Unix Makefiles
