@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Path Planning for Turtlebot using A* Algorithm
 
@@ -8,31 +7,18 @@ Graduate Student pursuing Masters in Robotics,
 University of Maryland, College Park
 """
 import map 
-import time
 import matplotlib.pyplot as plt
 import numpy as np
 import utils
 import algo
-import rospy
-from geometry_msgs.msg import Twist
-from nav_msgs.msg import Odometry
 
 def main():
-
-  rospy.init_node('turtlebot3_vel_publisher', anonymous=True)
-  velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-  vel_msg = Twist()
-  def callback(msg):
-    print(msg.pose.pose)
-
   # Taking inputs from the user
-  time.sleep(2)
-  print('')
-  print("************************* Let's move the turtlebot! *******************************")
-  print('')
-  clearance = eval(input('Please enter the clearance value of the robot from the obstacle:'))
-  print('The clearance value you entered is:', clearance)
-  print('')
+  # clearance = eval(input('Please enter the clearance value of the robot from the obstacle:'))
+  # print('The clearance value you entered is:', clearance)
+  # print('')
+  clearance = 0.2
+  print('The default clearance value is:', clearance)
   start_point = eval(input('Please enter the start coordinates for the robot in this format - [X_coord, Y_coord, Theta]:'))
   while not utils.check_node(start_point, clearance):
     start_point = eval(input('Please enter the start coordinates in this format - [X_coord, Y_coord, Theta]:'))
@@ -77,21 +63,8 @@ def main():
     #if point%10 == 0:
       #plt.savefig('/home/nalindas9/Desktop/images/'+'img' + str(point) + '.png', dpi = 300)
    
-  print('Path length:',len(path))
-  for point in range(1,len(path)):
+  for point in range(len(path)):
     if point+1 < len(path):
-      #odom_sub = rospy.Subscriber('/odom', Odometry, callback)
-      vel_msg.linear.x = (path[point][5][0]**2 + path[point][5][1]**2)**(1/2)
-      vel_msg.linear.y = 0
-      vel_msg.linear.z = 0
-      vel_msg.angular.x = 0
-      vel_msg.angular.y = 0
-      vel_msg.angular.z = path[point][5][2]
-      velocity_publisher.publish(vel_msg)
-      print('Point:', point)
-      now = rospy.get_rostime()
-      print('ROS Time:', now.secs)
-      time.sleep(1)
       points3x.append(path[point][0])
       points3y.append((path[point][1]))
       points4x.append((path[point+1][0])-(path[point][0]))
@@ -99,29 +72,16 @@ def main():
       #plt.quiver(path[point][0], (path[point][1]), (path[point+1][0])-(path[point][0]), (path[point+1][1])-(path[point][1]), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)
       #plt.savefig('/home/nalindas9/Desktop/images/'+'img' + str(point+len(explored)) + '.png', dpi = 300)
     else:
-      vel_msg.linear.x = (path[point][5][0]**2 + path[point][5][1]**2)**(1/2)
-      vel_msg.linear.y = 0
-      vel_msg.linear.z = 0
-      vel_msg.angular.x = 0
-      vel_msg.angular.y = 0
-      vel_msg.angular.z = path[point][5][2]
-      velocity_publisher.publish(vel_msg)
       points3x.append(path[point][0])
       points3y.append((path[point][1]))
       points4x.append((path[-1][0])-(path[point][0]))
       points4y.append((path[-1][1])-(path[point][1]))
       #plt.quiver(path[point][0], (path[point][1]), (path[-1][0])-(path[point][0]), (path[-1][1])-(path[point][1]), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)
       #plt.savefig('/home/nalindas9/Desktop/images/'+'img' + str(point+len(explored)) + '.png', dpi = 300)
-  vel_msg.linear.x = 0
-  vel_msg.linear.y = 0
-  vel_msg.linear.z = 0
-  vel_msg.angular.x = 0
-  vel_msg.angular.y = 0
-  vel_msg.angular.z = 0
-  velocity_publisher.publish(vel_msg)   
+  
   plt.quiver(np.array(points1x), np.array(points1y), np.array(points2x), np.array(points2y), units='xy' ,scale=1, label = 'Final Path', color = 'g', width =0.02, headwidth = 1,headlength=0)
      
-  plt.quiver(np.array(points3x), np.array(points3y), np.array(points4x), np.array(points4y), units='xy' ,scale=1, label = 'Final Path', color = 'b', width =0.02, headwidth = 1,headlength=0)
+  plt.quiver(np.array(points3x), np.array(points3y), np.array(points4x), np.array(points4y), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)
   
   plt.show()
   plt.close()
