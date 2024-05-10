@@ -1,0 +1,8 @@
+prefix=/home/bananabreadbo/git/path-planning-astar-turtlebot/Phase_4/turtlebot3_ws/install
+
+Name: turtlebot3_astar
+Description: Description of turtlebot3_astar
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
