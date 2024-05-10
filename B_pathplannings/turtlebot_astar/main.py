@@ -17,7 +17,7 @@ def main():
   # clearance = eval(input('Please enter the clearance value of the robot from the obstacle:'))
   # print('The clearance value you entered is:', clearance)
   # print('')
-  clearance = 0.5
+  clearance = 0.2
   print('The default clearance value is:', clearance)
   start_point = eval(input('Please enter the start coordinates for the robot in this format - [X_coord, Y_coord, Theta]:'))
   while not utils.check_node(start_point, clearance):
