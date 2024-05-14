@@ -30,6 +30,8 @@ class TurtlebotControl{
 
     void stopTurtlebot();
 
+    double getVelocity(nav_msgs::Odometry odo);
+
     ros::NodeHandle nh_; // Node handle for communication with ROS
     int turtlebot_ID_; // ID of the turtlebot
 
@@ -43,6 +45,9 @@ class TurtlebotControl{
     geometry_msgs::Point currentWayPoint_; // Current waypoint to reach
     geometry_msgs::Point currentGoal_; // Goal to reach 
     unsigned int current_point_index_;
+    double linear_tolerance_;
+    double angular_tolerance_;
+    bool odom_received_;
 
 
 
