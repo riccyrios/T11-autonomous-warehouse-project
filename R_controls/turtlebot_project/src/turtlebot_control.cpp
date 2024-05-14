@@ -19,12 +19,16 @@ TurtlebotControl::TurtlebotControl(ros::NodeHandle nh, int ID): nh_(nh), turtleb
 void TurtlebotControl::setWaypoints(std::vector<geometry_msgs::Point> waypoints){
 
     std::cout << "setwaypoints function started for turtlebot" << std::endl;
+
+    // this is where i'll accept the points from Bo, subscribe to the topic that publishes the waypoints
+
     // Set the waypoints
     waypoints_ = waypoints;
 
     // Set the current waypoint to the first waypoint
     current_point_index_ = 0;
     currentWayPoint_ = waypoints_[current_point_index_];
+
 
 
     // Set the current goal to the last waypoint
