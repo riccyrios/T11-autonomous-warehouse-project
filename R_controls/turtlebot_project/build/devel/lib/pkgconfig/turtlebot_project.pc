@@ -5,4 +5,4 @@ Description: Description of turtlebot_project
 Version: 0.0.1
 Cflags: 
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: roscpp roslib nav_msgs std_msgs geometry_msgs

@@ -28,18 +28,21 @@ class TurtlebotControl{
 
     double rotationAngle(double x, double y);
 
+    void stopTurtlebot();
+
     ros::NodeHandle nh_; // Node handle for communication with ROS
     int turtlebot_ID_; // ID of the turtlebot
 
-    ros::Subscriber odom_info; // Subscriber for the odometry information
-    ros::Publisher cmd_vel_pub; // Publisher for the velocity commands
+    ros::Subscriber odom_info_; // Subscriber for the odometry information
+    ros::Publisher cmd_vel_pub_; // Publisher for the velocity commands
     ros::Rate rate_{10}; // Rate for the loop 10 Hz
 
     nav_msgs::Odometry odo_; // Odometry information
 
     std::vector<geometry_msgs::Point> waypoints_; // Waypoints to reach goal
-    geometry_msgs::Point currentWayPoint; // Current waypoint to reach
-    geometry_msgs::Point currentGoal_; // Goal to reach
+    geometry_msgs::Point currentWayPoint_; // Current waypoint to reach
+    geometry_msgs::Point currentGoal_; // Goal to reach 
+    unsigned int current_point_index_;
 
 
 

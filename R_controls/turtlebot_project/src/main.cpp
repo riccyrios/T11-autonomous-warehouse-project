@@ -20,14 +20,14 @@ int main (int argc, char **argv){
     std::vector<geometry_msgs::Point> waypoints;
 
     geometry_msgs::Point point1;
-    point1.x = 0.0;
+    point1.x = 0.2;
     point1.y = 0.0;
     waypoints.push_back(point1);
 
-    geometry_msgs::Point point2;
-    point2.x = 1.0;
-    point2.y = 0.0;
-    waypoints.push_back(point2);
+    // geometry_msgs::Point point2;
+    // point2.x = 0.0;
+    // point2.y = 0.0;
+    // waypoints.push_back(point2);
 
     std::cout << "waypoints defined" << std::endl;
 
@@ -37,6 +37,7 @@ int main (int argc, char **argv){
 
     std::cout << "moving turtlebot" << std::endl;
     turtlebot1.get()->moveTurtlebot();
+    
     std::cout << "turtlebot path finished" << std::endl;
 
     ros::spin();
