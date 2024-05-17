@@ -11,110 +11,108 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 
 def main():
+    rospy.init_node('turtlebot3_vel_publisher', anonymous=True)
+    velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    vel_msg = Twist()
 
-  rospy.init_node('turtlebot3_vel_publisher', anonymous=True)
-  velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-  vel_msg = Twist()
-  def callback(msg):
-    print(msg.pose.pose)
+    def callback(msg):
+        print(msg.pose.pose)
 
-  time.sleep(2) 
-  clearance = 0.5
-  print('The default clearance value is:', clearance)
-  start_point = 1,1,0
-  while not utils.check_node(start_point, clearance):
-    start_point = 1,1,0
-  start_circle = plt.scatter(start_point[0], start_point[1], c = 'b')
-  print('The start point you entered is:', start_point)
-  print('')  
-  goal_point = -3,5
-  while not utils.check_node(goal_point, clearance):
-    goal_point = -3,5
-  goal_circle = plt.scatter(goal_point[0], goal_point[1], c = 'y')
-  print('The goal point you entered is:', goal_point)
-  print('')
-  goal_circle = plt.Circle((goal_point[0], goal_point[1]), radius= 0.25,fill=False)
-  plt.gca().add_patch(goal_circle)
-  rpm = 6,4
-  print("The wheel RPM's you entered for both the wheels are:", rpm)
-  print('')
+    time.sleep(2)
+    clearance = 0.1
+    print('The default clearance value is:', clearance)
 
-  robot_radius = 0.089
-  s1 = algo.Node(start_point, goal_point, [0,0], robot_radius+clearance, rpm[0], rpm[1])
-  path, explored = s1.astar()
-  
-  plt.title('Path planning implemented for Turtlebot 3 using A* Algorithm',fontsize=10)
-  
-  # Plotting the explored nodes and final path
-  points1x = []
-  points1y = []
-  points2x = []
-  points2y = []
-  points3x = []
-  points3y = []
-  points4x = []
-  points4y = []
-  
-  for point in range(1,len(explored)):
-    #print('Explored point:', explored[point])
-    points1x.append(explored[point][4][0])
-    points1y.append(explored[point][4][1])
-    points2x.append(explored[point][1][0]-(explored[point][4][0]))
-    points2y.append(explored[point][1][1]-(explored[point][4][1]))
-    #plt.quiver(explored[point][4][0], explored[point][4][1], explored[point][1][0]-(explored[point][4][0]), explored[point][1][1]-(explored[point][4][1]), units='xy' ,scale=1, label = 'Final Path', color = 'g', width =0.02, headwidth = 1,headlength=0)
-    #if point%10 == 0:
-      #plt.savefig('/home/nalindas9/Desktop/images/'+'img' + str(point) + '.png', dpi = 300)
-   
-  print('Path length:',len(path))
-  for point in range(1,len(path)):
-    if point+1 < len(path):
-      #odom_sub = rospy.Subscriber('/odom', Odometry, callback)
-      vel_msg.linear.x = (path[point][5][0]**2 + path[point][5][1]**2)**(1/2)
-      vel_msg.linear.y = 0
-      vel_msg.linear.z = 0
-      vel_msg.angular.x = 0
-      vel_msg.angular.y = 0
-      vel_msg.angular.z = path[point][5][2]
-      velocity_publisher.publish(vel_msg)
-      print('Point:', point)
-      now = rospy.get_rostime()
-      print('ROS Time:', now.secs)
-      time.sleep(1)
-      points3x.append(path[point][0])
-      points3y.append((path[point][1]))
-      points4x.append((path[point+1][0])-(path[point][0]))
-      points4y.append((path[point+1][1])-(path[point][1]))
-      #plt.quiver(path[point][0], (path[point][1]), (path[point+1][0])-(path[point][0]), (path[point+1][1])-(path[point][1]), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)
-      #plt.savefig('/home/nalindas9/Desktop/images/'+'img' + str(point+len(explored)) + '.png', dpi = 300)
-    else:
-      vel_msg.linear.x = (path[point][5][0]**2 + path[point][5][1]**2)**(1/2)
-      vel_msg.linear.y = 0
-      vel_msg.linear.z = 0
-      vel_msg.angular.x = 0
-      vel_msg.angular.y = 0
-      vel_msg.angular.z = path[point][5][2]
-      velocity_publisher.publish(vel_msg)
-      points3x.append(path[point][0])
-      points3y.append((path[point][1]))
-      points4x.append((path[-1][0])-(path[point][0]))
-      points4y.append((path[-1][1])-(path[point][1]))
-      #plt.quiver(path[point][0], (path[point][1]), (path[-1][0])-(path[point][0]), (path[-1][1])-(path[point][1]), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)
-      #plt.savefig('/home/nalindas9/Desktop/images/'+'img' + str(point+len(explored)) + '.png', dpi = 300)
-  vel_msg.linear.x = 0
-  vel_msg.linear.y = 0
-  vel_msg.linear.z = 0
-  vel_msg.angular.x = 0
-  vel_msg.angular.y = 0
-  vel_msg.angular.z = 0
-  velocity_publisher.publish(vel_msg)   
-  plt.quiver(np.array(points1x), np.array(points1y), np.array(points2x), np.array(points2y), units='xy' ,scale=1, label = 'Final Path', color = 'g', width =0.02, headwidth = 1,headlength=0)
-     
-  plt.quiver(np.array(points3x), np.array(points3y), np.array(points4x), np.array(points4y), units='xy' ,scale=1, label = 'Final Path', color = 'b', width =0.02, headwidth = 1,headlength=0)
+    start_point = 1, 1, 0
+    while not utils.check_node(start_point, clearance):
+        start_point = 1, 1, 0
+    start_circle = plt.scatter(start_point[0], start_point[1], c='b')
+    print('The start point you entered is:', start_point)
+    print('')
 
-  # plt.scatter([coord[0] for coord in subsampled_coordinates], [coord[1] for coord in subsampled_coordinates],
-  #               color='purple', s=5)
-  
-  plt.show()
-  plt.close()
+    # goal_points = [(1, 2, 0), (2, 2.5, 0), (-3, 5, 0), (2, 4.5, 0)]  # Example goal points
+    goal_points = [(1, 2, 0)]
+    rpm = 6, 4
+    print("The wheel RPM's you entered for both the wheels are:", rpm)
+    print('')
+
+    robot_radius = 0.089
+
+    plt.title('Path planning implemented for Turtlebot 3 using A* Algorithm', fontsize=10)
+
+    for goal_point in goal_points:
+        while not utils.check_node(goal_point, clearance):
+            goal_point = goal_point  # Adjust this logic as needed
+        goal_circle = plt.scatter(goal_point[0], goal_point[1], c='y')
+        print('The goal point you entered is:', goal_point)
+        print('')
+        goal_circle = plt.Circle((goal_point[0], goal_point[1]), radius=0.25, fill=False)
+        plt.gca().add_patch(goal_circle)
+
+        s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
+        path, explored = s1.astar()
+
+        points1x = []
+        points1y = []
+        points2x = []
+        points2y = []
+        points3x = []
+        points3y = []
+        points4x = []
+        points4y = []
+
+        for point in range(1, len(explored)):
+          if len(explored[point]) > 4:
+            points1x.append(explored[point][4][0])
+            points1y.append(explored[point][4][1])
+            points2x.append(explored[point][1][0] - (explored[point][4][0]))
+            points2y.append(explored[point][1][1] - (explored[point][4][1]))
+
+        print('Path length:', len(path))
+        for point in range(1, len(path)):
+            if point + 1 < len(path):
+                vel_msg.linear.x = (path[point][5][0]**2 + path[point][5][1]**2)**(1/2)
+                vel_msg.linear.y = 0
+                vel_msg.linear.z = 0
+                vel_msg.angular.x = 0
+                vel_msg.angular.y = 0
+                vel_msg.angular.z = path[point][5][2]
+                velocity_publisher.publish(vel_msg)
+                print('Point:', point)
+                now = rospy.get_rostime()
+                print('ROS Time:', now.secs)
+                time.sleep(1)
+                points3x.append(path[point][0])
+                points3y.append((path[point][1]))
+                points4x.append((path[point+1][0]) - (path[point][0]))
+                points4y.append((path[point+1][1]) - (path[point][1]))
+            else:
+                vel_msg.linear.x = (path[point][5][0]**2 + path[point][5][1]**2)**(1/2)
+                vel_msg.linear.y = 0
+                vel_msg.linear.z = 0
+                vel_msg.angular.x = 0
+                vel_msg.angular.y = 0
+                vel_msg.angular.z = path[point][5][2]
+                velocity_publisher.publish(vel_msg)
+                points3x.append(path[point][0])
+                points3y.append((path[point][1]))
+                points4x.append((path[-1][0]) - (path[point][0]))
+                points4y.append((path[-1][1]) - (path[point][1]))
+        
+        vel_msg.linear.x = 0
+        vel_msg.linear.y = 0
+        vel_msg.linear.z = 0
+        vel_msg.angular.x = 0
+        vel_msg.angular.y = 0
+        vel_msg.angular.z = 0
+        velocity_publisher.publish(vel_msg)
+        
+        plt.quiver(np.array(points1x), np.array(points1y), np.array(points2x), np.array(points2y), units='xy', scale=1, label='Final Path', color='g', width=0.02, headwidth=1, headlength=0)
+        plt.quiver(np.array(points3x), np.array(points3y), np.array(points4x), np.array(points4y), units='xy', scale=1, label='Final Path', color='b', width=0.02, headwidth=1, headlength=0)
+
+        start_point = goal_point
+
+    plt.show()
+    plt.close()
+
 if __name__ == '__main__':
-  main()
+    main()
