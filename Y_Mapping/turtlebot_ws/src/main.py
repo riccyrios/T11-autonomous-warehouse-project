@@ -30,7 +30,13 @@ def main():
     print('')
 
     # goal_points = [(1, 2, 0), (2, 2.5, 0), (-3, 5, 0), (2, 4.5, 0)]  # Example goal points
-    goal_points = [(1, 2, 0)]
+    goal_points = []
+    with open('goal_point.txt', 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            points = line.strip()[1:-1].split(',')
+            goal_points.append((float(points[0]), float(points[1]), 0))  # Assuming theta is 0 for all goal points
+
     rpm = 6, 4
     print("The wheel RPM's you entered for both the wheels are:", rpm)
     print('')
