@@ -6,14 +6,14 @@ import utils
 import operator
 import random 
 
-k = 0
-# 3D array with (x,y,theta) as index
-visited_nodes = np.zeros((50,50,37))
-# Dictionary for backtracking 
-valid_childs_dict = {}
-# List to store all the explored nodes for visualization
-explored = []
-# Node class containing action set, graph generation and Astar Algorithm
+# k = 0
+# # 3D array with (x,y,theta) as index
+# visited_nodes = np.zeros((50,50,37))
+# # Dictionary for backtracking 
+# valid_childs_dict = {}
+# # List to store all the explored nodes for visualization
+# explored = []
+# # Node class containing action set, graph generation and Astar Algorithm
 
 class Node():
   # Constructor for Node class
@@ -25,6 +25,9 @@ class Node():
     self.rpm1 = rpm1
     self.rpm2 = rpm2
     self.weight = 10*max(self.rpm1, self.rpm2)
+    self.visited_nodes = np.zeros((50, 50, 37))
+    self.valid_childs_dict = {}
+    self.explored = []
   
   # Method to find new coordinates for non holonomic constraints
   def move(self,Xi,Yi,Thetai,UL,UR):
@@ -164,18 +167,18 @@ class Node():
     childs_cost = {n1[3]:n1,n2[3]:n2,n3[3]:n3,n4[3]:n4, n5[3]:n5, n6[3]:n6,n7[3]:n7, n8[3]:n8}
     # Check for valid children and append them to the list
     for cost in childs_cost.keys():
-      if utils.check_node(childs_cost[cost], self.clearance) == True and visited_nodes[int(round(childs_cost[cost][0],1)/0.2)][int(round(childs_cost[cost][1],1)/0.2)][int(round(childs_cost[cost][2],1)/10)] == 0:
+      if utils.check_node(childs_cost[cost], self.clearance) == True and self.visited_nodes[int(round(childs_cost[cost][0],1)/0.2)][int(round(childs_cost[cost][1],1)/0.2)][int(round(childs_cost[cost][2],1)/10)] == 0:
         valid_children.append((cost, childs_cost[cost], childs_cost[cost][4], self.index(childs_cost[cost]),node))
-        valid_childs_dict[self.index(childs_cost[cost])] = [childs_cost[cost], node, self.index(node)]
-        visited_nodes[int(round(childs_cost[cost][0],1)/0.2)][int(round(childs_cost[cost][1],1)/0.2)][int(round(childs_cost[cost][2],1)/10)] = 1
+        self.valid_childs_dict[self.index(childs_cost[cost])] = [childs_cost[cost], node, self.index(node)]
+        self.visited_nodes[int(round(childs_cost[cost][0],1)/0.2)][int(round(childs_cost[cost][1],1)/0.2)][int(round(childs_cost[cost][2],1)/10)] = 1
         
     return valid_children
 
   def astar(self):
     # print('Started Search ... ')
     explored_nodes = [(0, self.start_node, self.index(self.start_node), self.parent_node)]
-    explored.append(self.start_node)
-    valid_childs_dict[self.index(self.start_node)] = [self.start_node, self.parent_node]
+    self.explored.append(self.start_node)
+    self.valid_childs_dict[self.index(self.start_node)] = [self.start_node, self.parent_node]
     cum_cost = 0
     itr = 0
     final_node_key = None
@@ -187,7 +190,7 @@ class Node():
       child_costs = self.child_generator(min_cost_child, cum_cost)
       for child in child_costs:
         explored_nodes.append(child)
-        explored.append(child)
+        self.explored.append(child)
       explored_nodes.sort(key = operator.itemgetter(0))
       #print('Explored Nodes:', explored_nodes)
       if explored_nodes:
@@ -195,7 +198,7 @@ class Node():
       itr = itr+1
       if itr > 70000:
         # print('No path found!')
-        return None, explored
+        return None, self.explored
         
       if ((min_cost_child[0] - self.goal_node[0]) ** 2 + (min_cost_child[1] - self.goal_node[1]) ** 2) <= 0.25 ** 2:
         final_node_key =  (min_cost_child[0], min_cost_child[1], min_cost_child[2])
@@ -204,12 +207,12 @@ class Node():
 
     # print('Started Backtracking ...')
     if final_node_key == None:
-      print('No path found!')
-      return None, explored
+      # print('No path found!')
+      return None, self.explored
     final_path = self.back_track(final_node_key)
     # print('Backtracking complete!')
 
-    return final_path, explored
+    return final_path, self.explored
         
   def back_track(self, node_ind):
     ## All elements
@@ -227,11 +230,11 @@ class Node():
     #   node_ind = valid_childs_dict[node_ind][2]
 
     # 2 elements with 3dp rounding
-    path = [(round(valid_childs_dict[node_ind][0][0], 3), round(valid_childs_dict[node_ind][0][1], 3))]  # take only the first two elements of the tuple and round them
+    path = [(round(self.valid_childs_dict[node_ind][0][0], 3), round(self.valid_childs_dict[node_ind][0][1], 3))]  # take only the first two elements of the tuple and round them
     while node_ind != self.index(self.start_node):
-      parent = (round(valid_childs_dict[node_ind][1][0], 3), round(valid_childs_dict[node_ind][1][1], 3))  # take only the first two elements of the tuple and round them
+      parent = (round(self.valid_childs_dict[node_ind][1][0], 3), round(self.valid_childs_dict[node_ind][1][1], 3))  # take only the first two elements of the tuple and round them
       path.insert(0, parent)
-      node_ind = valid_childs_dict[node_ind][2]
+      node_ind = self.valid_childs_dict[node_ind][2]
     # print('The path is:', path)
     total_distance = 0
     for i in range(1, len(path)):
@@ -239,7 +242,7 @@ class Node():
         x2, y2 = path[i]
         distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
         total_distance += distance
-    print('The total distance of the path is:', round(total_distance, 2))
+    # print('The total distance of the path is:', round(total_distance, 2))
     
     return path
     # return path[:2]  # return only the first two elements of the path (x and y coordinates)
