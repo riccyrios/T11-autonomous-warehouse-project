@@ -8,6 +8,7 @@ def main():
     clearance = 0.1
     rpm = [6, 4]
     robot_radius = 0.089
+    mode = 0
 
     NODE_COORDINATES = {
     0: (0.00, 0.00), # Dock
@@ -32,17 +33,30 @@ def main():
     19: (1.231, 1.29),
     20: (0.84, 1.34)
     }
-    distances_from_node_0 = []
-    for i in range(1, 21):
+
+    if mode == 0:
+        distances_from_node_0 = []
+        for i in range(1, 21):
+            start_point = [NODE_COORDINATES[0][0], NODE_COORDINATES[0][1], 0]
+            goal_point = [NODE_COORDINATES[i][0], NODE_COORDINATES[i][1]]
+            s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
+            path, explored = s1.astar()
+            if path:
+                distance = calculate_distance(path)
+                distances_from_node_0.append(distance)
+            else:
+                distances_from_node_0.append(None)
+
+        print(distances_from_node_0)
+
+    elif mode == 1:
         start_point = [NODE_COORDINATES[0][0], NODE_COORDINATES[0][1], 0]
-        goal_point = [NODE_COORDINATES[i][0], NODE_COORDINATES[i][1]]
+        goal_point = [NODE_COORDINATES[2][0], NODE_COORDINATES[2][1]]
         s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
         path, explored = s1.astar()
-        if path:
-            distance = calculate_distance(path)
-            distances_from_node_0.append(distance)
-            
-    print(distances_from_node_0)
+        # print(path)
+        distance = calculate_distance(path)
+        print(distance)
 
 
 def calculate_distance(path):
@@ -52,6 +66,7 @@ def calculate_distance(path):
         x2, y2 = path[i]
         distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
         total_distance += distance
+    return round(total_distance, 2)
 
 if __name__ == "__main__":
     main()
