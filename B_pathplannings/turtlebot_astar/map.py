@@ -1,12 +1,4 @@
-"""
-Map Definition for A* Algorithm
 
-Authors:
--Nidhi Bhojak
--Nalin Das (nalindas9@gmail.com)
-Graduate Student pursuing Masters in Robotics,
-University of Maryland, College Park
-"""
 import matplotlib.pyplot as plt
 import numpy as np
 from math import pi

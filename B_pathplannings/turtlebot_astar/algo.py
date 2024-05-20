@@ -1,11 +1,4 @@
-"""
-Node class for A* Algorithm
 
-Authors:
-Nalin Das (nalindas9@gmail.com)
-Graduate Student pursuing Masters in Robotics,
-University of Maryland, College Park
-"""
 import math
 import matplotlib.pyplot as plt
 import numpy as np
@@ -39,8 +32,8 @@ class Node():
     r = 0.033
     L = 0.160
     dt = 1
-    Xn=Xi
-    Yn=Yi
+    Xn = Xi
+    Yn = Yi
     Thetan = 3.14 * Thetai / 180
 
 # Xi, Yi,Thetai: Input point's coordinates
@@ -179,39 +172,75 @@ class Node():
     return valid_children
 
   def astar(self):
-    print('Started Search ... ')
+    # print('Started Search ... ')
     explored_nodes = [(0, self.start_node, self.index(self.start_node), self.parent_node)]
     explored.append(self.start_node)
     valid_childs_dict[self.index(self.start_node)] = [self.start_node, self.parent_node]
     cum_cost = 0
     itr = 0
+    final_node_key = None
+
     while len(explored_nodes) > 0:
-      print('Explored Depth:', itr)
+      # print('Explored Depth:', itr)
       min_cost_child = explored_nodes[0][1]
       explored_nodes.pop(0)
-      child_costs= self.child_generator(min_cost_child, cum_cost)
+      child_costs = self.child_generator(min_cost_child, cum_cost)
       for child in child_costs:
         explored_nodes.append(child)
         explored.append(child)
-      explored_nodes.sort(key=operator.itemgetter(0))
+      explored_nodes.sort(key = operator.itemgetter(0))
       #print('Explored Nodes:', explored_nodes)
-      cum_cost = explored_nodes[0][2]
+      if explored_nodes:
+        cum_cost = explored_nodes[0][2]
       itr = itr+1
+      if itr > 70000:
+        # print('No path found!')
+        return None, explored
+        
       if ((min_cost_child[0] - self.goal_node[0]) ** 2 + (min_cost_child[1] - self.goal_node[1]) ** 2) <= 0.25 ** 2:
         final_node_key =  (min_cost_child[0], min_cost_child[1], min_cost_child[2])
-        print('Goal node found!')
+        # print('Goal node found!')
         break 
-    print('Started Backtracking ...')
-    final_path= self.back_track(final_node_key)
-    print('Backtracking complete!')
+
+    # print('Started Backtracking ...')
+    if final_node_key == None:
+      print('No path found!')
+      return None, explored
+    final_path = self.back_track(final_node_key)
+    # print('Backtracking complete!')
+
     return final_path, explored
         
   def back_track(self, node_ind):
-    path = [valid_childs_dict[node_ind][0]]
+    ## All elements
+    # path = [valid_childs_dict[node_ind][0]]
+    # while node_ind != self.index(self.start_node):
+    #   parent = valid_childs_dict[node_ind][1]
+    #   path.insert(0, parent)
+    #   node_ind = valid_childs_dict[node_ind][2]
+
+    ## 2 elements no rounding
+    # path = [valid_childs_dict[node_ind][0][:2]]  # take only the first two elements of the tuple
+    # while node_ind != self.index(self.start_node):
+    #   parent = valid_childs_dict[node_ind][1][:2]  # take only the first two elements of the tuple
+    #   path.insert(0, parent)
+    #   node_ind = valid_childs_dict[node_ind][2]
+
+    # 2 elements with 3dp rounding
+    path = [(round(valid_childs_dict[node_ind][0][0], 3), round(valid_childs_dict[node_ind][0][1], 3))]  # take only the first two elements of the tuple and round them
     while node_ind != self.index(self.start_node):
-      parent = valid_childs_dict[node_ind][1]
+      parent = (round(valid_childs_dict[node_ind][1][0], 3), round(valid_childs_dict[node_ind][1][1], 3))  # take only the first two elements of the tuple and round them
       path.insert(0, parent)
       node_ind = valid_childs_dict[node_ind][2]
-    print('The path is:', path)
+    # print('The path is:', path)
+    total_distance = 0
+    for i in range(1, len(path)):
+        x1, y1 = path[i-1]
+        x2, y2 = path[i]
+        distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+        total_distance += distance
+    print('The total distance of the path is:', round(total_distance, 2))
+    
     return path
+    # return path[:2]  # return only the first two elements of the path (x and y coordinates)
    

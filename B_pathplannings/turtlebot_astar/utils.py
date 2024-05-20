@@ -1,11 +1,4 @@
-"""
-Utility Functions
 
-Authors:
-Nalin Das (nalindas9@gmail.com)
-Graduate Student pursuing Masters in Robotics,
-University of Maryland, College Park
-"""
 import numpy as np
 import math
 
@@ -356,7 +349,7 @@ def check_node(node, clearance):
       distance = ((x - wall[0])**2 + (y - wall[1])**2)**0.5
       # If the distance is less than the radius of the wall, the node is inside the wall
       if distance < clearance:
-          print('Sorry the point is in an obstacle space! Try again')
+          # print('Sorry the point is in an obstacle space! Try again.')
           return False
   return True
   # return True   
