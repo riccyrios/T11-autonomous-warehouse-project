@@ -37,6 +37,8 @@ class TurtlebotControl{
 
     ros::Subscriber odom_info_; // Subscriber for the odometry information
     ros::Publisher cmd_vel_pub_; // Publisher for the velocity commands
+    ros::Subscriber waypoints_sub_; // Subscriber for the waypoints
+
     ros::Rate rate_{10}; // Rate for the loop 10 Hz
 
     nav_msgs::Odometry odo_; // Odometry information

@@ -12,15 +12,20 @@ TurtlebotControl::TurtlebotControl(ros::NodeHandle nh, int ID): nh_(nh), turtleb
     //cmd_vel_pub = nh_.advertise<geometry_msgs::Twist>("/tb"+std::to_string(turtlebot_ID_)+"/cmd_vel", 1);
     cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
     // potentially add the waypoint publisher, we should subscribe to a ros topic that subscribes to the waypoints being published by path planning node
-    linear_tolerance_ = 0.5;
-    angular_tolerance_ = 20*M_PI/180; //might need to make this tolerance smaller too wide right now i think
+    //waypoints_sub_ = nh_.subscribe("/waypoints", 1, &TurtlebotControl::setWaypoints, this);
+
+    linear_tolerance_ = 0.1;
+    angular_tolerance_ = 1*M_PI/180; //might need to make this tolerance smaller too wide right now i think
 }
 
+//void TurtlebotControl::setWaypoints(const std::vector<geometry_msgs::Point>::ConstPtr& waypoints){
+    //waypoints_ = *waypoints;
 void TurtlebotControl::setWaypoints(std::vector<geometry_msgs::Point> waypoints){
 
     std::cout << "setwaypoints function started for turtlebot" << std::endl;
 
     // this is where i'll accept the points from Bo, subscribe to the topic that publishes the waypoints
+    
 
     // Set the waypoints
     waypoints_ = waypoints;

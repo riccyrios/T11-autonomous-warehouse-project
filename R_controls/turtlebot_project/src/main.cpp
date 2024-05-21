@@ -30,6 +30,11 @@ int main (int argc, char **argv){
     point2.y = 3.0;
     waypoints.push_back(point2);
 
+    geometry_msgs::Point point3;
+    point3.x = 4.0;
+    point3.y = 3.0;
+    waypoints.push_back(point3);
+
     std::cout << "waypoints defined" << std::endl;
 
     turtlebot1.get()->setWaypoints(waypoints);
