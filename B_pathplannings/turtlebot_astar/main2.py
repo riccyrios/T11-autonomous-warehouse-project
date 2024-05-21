@@ -8,7 +8,7 @@ def main():
     clearance = 0.1
     rpm = [6, 4]
     robot_radius = 0.089
-    mode = 2
+    mode = 3
 
     NODE_COORDINATES = {
     0: (0.00, 0.00), # Dock
@@ -91,19 +91,51 @@ def main():
 
     # mode 2 calculate distance matrix
     elif mode == 2:
-        distance_matrix = np.full((21, 21), "N/A")
+        distance_matrix = np.full((21, 21), None)
         for i in NODE_COORDINATES:
             start_point = [NODE_COORDINATES[i][0], NODE_COORDINATES[i][1], 0]
-            for j in range(i+1, 21):
+            for j in range(i, 21):
                 goal_point = [NODE_COORDINATES[j][0], NODE_COORDINATES[j][1]]
                 s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
                 path, explored = s1.astar()
                 if path:
                     dis = calculate_distance(path)
                     distance_matrix[i][j] = round(dis, 2)
+                    distance_matrix[j][i] = round(dis, 2)
         for row in distance_matrix:
             print(list(row))
 
+        with open("distance_matrix.txt", "w") as file:
+            for row in distance_matrix:
+                formatted_row = ' '.join(str(elem) if elem is not None else '' for elem in row)
+                file.write(formatted_row + '\n')
+
+    # mode 3 generate paths to a list of goal points
+    elif mode == 3:
+        goal_points = []
+        with open('goals.txt', 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                points = line.strip().replace('(', '').replace(')', '').split(',')
+                goal_points.append((float(points[0]), float(points[1]), 0))
+        paths = []
+        start_point = (0, 0, 0)
+
+        # Find paths between start_location and the first goal, then between each consecutive goal
+        for goal in goal_points:
+            goal_point = goal
+            s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
+            path, explored = s1.astar()
+            if path:
+                paths.append(path)
+            start_point = goal_point
+
+        # Write paths to paths.txt
+        with open('paths.txt', 'w') as file:
+            for path in paths:
+                path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
+                file.write(path_str + '\n')
+        
 
 def calculate_distance(path):
     total_distance = 0
