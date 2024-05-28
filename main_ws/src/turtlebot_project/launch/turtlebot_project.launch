@@ -1,0 +1,5 @@
+<launch>
+
+<node pkg= "turtlebot_project" type = "turtlebot" name = "main_node" />
+
+</launch>

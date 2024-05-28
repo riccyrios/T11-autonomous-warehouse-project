@@ -1,0 +1,3 @@
+PROBLEM_FILE = /home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9/TSP_TEST.txt
+OUTPUT_TOUR_FILE = /home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9/TSP_TEST_OUTPUT_TOUR
+TOUR_FILE = /home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9/TSP_TEST_TOUR

@@ -5,4 +5,7 @@
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
-subdirs("turtlebot_ws")
+subdirs("idk")
+subdirs("occupancy")
+subdirs("turtlebot_astar")
+subdirs("turtlebot_project")

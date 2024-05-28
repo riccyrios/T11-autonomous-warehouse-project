@@ -131,7 +131,10 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/ubuntu/git/T11_multi_warehouse/main_ws/build/gtest/cmake_install.cmake")
-  include("/home/ubuntu/git/T11_multi_warehouse/main_ws/build/turtlebot_ws/cmake_install.cmake")
+  include("/home/ubuntu/git/T11_multi_warehouse/main_ws/build/idk/cmake_install.cmake")
+  include("/home/ubuntu/git/T11_multi_warehouse/main_ws/build/occupancy/cmake_install.cmake")
+  include("/home/ubuntu/git/T11_multi_warehouse/main_ws/build/turtlebot_astar/cmake_install.cmake")
+  include("/home/ubuntu/git/T11_multi_warehouse/main_ws/build/turtlebot_project/cmake_install.cmake")
 
 endif()
 

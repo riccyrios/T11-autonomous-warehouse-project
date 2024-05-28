@@ -1,2 +1,2 @@
-turtlebot_ws
+idk:occupancy:turtlebot_astar:turtlebot_project
 -DCATKIN_DEVEL_PREFIX=/home/ubuntu/git/T11_multi_warehouse/main_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ubuntu/git/T11_multi_warehouse/main_ws/install -G Unix Makefiles
