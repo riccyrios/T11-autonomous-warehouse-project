@@ -1,0 +1,8 @@
+prefix=/home/riccrios/catkin_ws/src/turtlebot_project/build/devel
+
+Name: turtlebot_project
+Description: Description of turtlebot_project
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp roslib nav_msgs std_msgs geometry_msgs
