@@ -174,9 +174,12 @@ def task_generation(num_nodes_to_pick):
     write_distance_matrix_to_file(smaller_distance_matrix, NEW_MATRIX)
 
     with open(PAR_FILE_PATH, 'w') as file:
-        file.write("PROBLEM_FILE = /home/chloe/Downloads/LKH-3.0.9/TSP_TEST.txt\n")
-        file.write("OUTPUT_TOUR_FILE = /home/chloe/Downloads/LKH-3.0.9/TSP_TEST_OUTPUT_TOUR\n")
-        file.write("TOUR_FILE = /home/chloe/Downloads/LKH-3.0.9/TSP_TEST_TOUR\n")
+        # file.write("PROBLEM_FILE = /home/chloe/Downloads/LKH-3.0.9/TSP_TEST.txt\n")
+        # file.write("OUTPUT_TOUR_FILE = /home/chloe/Downloads/LKH-3.0.9/TSP_TEST_OUTPUT_TOUR\n")
+        # file.write("TOUR_FILE = /home/chloe/Downloads/LKH-3.0.9/TSP_TEST_TOUR\n")
+        file.write("PROBLEM_FILE = {}\n".format(os.path.join(base_path, "TSP_TEST.txt")))
+        file.write("OUTPUT_TOUR_FILE = {}\n".format(os.path.join(base_path, "TSP_TEST_OUTPUT_TOUR")))
+        file.write("TOUR_FILE = {}\n".format(os.path.join(base_path, "TSP_TEST_TOUR")))
 
     with open(CONVERSION_FILE_PATH, 'w') as file:
         file.write("{\n")

@@ -52,8 +52,9 @@ def run_tsp_solver():
 
 # Delete any old TSP files, this is not important for the TSP version, but it is for the mTSP version
 def delete_old_tour_file():
-    directory = "/home/chloe/Downloads/LKH-3.0.9/"
-    file_path = os.path.join(directory, "Tour_0")
+    # directory = "/home/chloe/Downloads/LKH-3.0.9/"
+    # file_path = os.path.join(directory, "Tour_0")
+    file_path = os.path.join(base_path, "Tour_0")
 
     if os.path.exists(file_path):
         os.remove(file_path)
@@ -124,7 +125,10 @@ def coordinate_mapping():
 # This function, same as map_tours, but for coordinates. It replaces the reference node number with the coordinates of the original node number
 def map_tours_to_coordinates(tours, coord_mapping):
     for i, tour in enumerate(tours):
-        tours[i] = [coord_mapping.get(node) + (0,) for node in tour]
+        # I changed this, is this bad?
+        # tours[i] = [coord_mapping.get(node) + (0,) for node in tour]
+       tours[i] = [coord_mapping.get(node) for node in tour]
+       
     return tours
 
 # THis function writes the tours to a file in the format of a list of coordinates. In TSP, only 1 tour file
@@ -153,7 +157,8 @@ def main():
     if print_flag:
       for i, nodes in enumerate(tours):
         print("Tour_" + str(i) + " written to file and topic: Tour_" + str(i) + ": " + "[" +' '.join(map(str, nodes)) + "]")
-        file_path = "/home/chloe/Downloads/LKH-3.0.9/Tour_{}.txt".format(i)
+        # file_path = "/home/chloe/Downloads/LKH-3.0.9/Tour_{}.txt".format(i)
+        file_path = os.path.join(base_path, "Tour_{}.txt".format(i))
         write_coordinate_tour_to_file(cmapped_tours[i], file_path)
       print_flag = False
 
