@@ -13,14 +13,13 @@ This is the repository for the project - Path planning implemented for the Turtl
  - math
  
 ### How to Run
-1. Navigate to the folder "turtlebot_astar" <br>
-2. To view the simulation video for the following parameters - Start : (1, 1, 0) Goal : (-3, 5) <br>
-3. To run the code, from the terminal, run the command `python3 main.py` <br>
-4. The program will ask for the clearance (in meters) from the obstacles, provide input in 'float' format. For eg: 0.2<br>
-5. Next program will ask for start point, provide input in [x,y,theta] format. For eg: `1, 1, 0`. If the points provided are in the obstacle space or out of bounds, program will ask you to re-enter points.<br>
-6. Next program will ask for goal point, provide input in [x,y] format. For eg: `-3,5`.
-If the points provided are in the obstacle space or out of bounds, program will ask you to re-enter points.<br>
-7. You will then be asked the two RPM's for the wheels, provide input in [rpm1,rpm2] format, For eg: `6,4` <br>
+Navigate to the folder "turtlebot_astar" <br>
+Now you need to decide what you wanna do:<br>
+a) If you want to test my algorithm from a chosen start and end point use command: `python3 main.py`<br>
+b) If you want to pass on a list of goals and get a list of paths use command: `python3 main2.py`<br>
+main2.py is set on mode 3 which reads from goals.txt and puts it through the astar algorithm and spits out the paths into paths.txt<br>
+If you want to test different list of goals please edit goals.txt<br>
+
 
 The blue circle is the start point, and the yellow circle is the goal with threshold radius of 0.25 meters. The green color is for the explored nodes, while the black color signifies the final path. 
 
