@@ -17,7 +17,7 @@ My files include different versions:
 	publishes node reference numbers to tour_0 topic
 	TSP1py, TSP2.py, TSPMain.py
 - mTSP instance:
-	calcualtes cost by reading B's full distance matrix file
+	calculates cost by reading B's full distance matrix file
 	publishes node reference numbers to tour_(i) topics
 - mTSP instance:
 	*** You'll have to manually change the file paths in the first two code files
