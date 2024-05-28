@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/git/T11_multi_warehouse/main_ws/devel
+
+Name: turtlebot_project
+Description: Description of turtlebot_project
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp roslib nav_msgs std_msgs geometry_msgs

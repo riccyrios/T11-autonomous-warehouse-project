@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -std=c++17  -shared -Wl,-soname,libturtlebot_control.so -o /home/ubuntu/git/T11_multi_warehouse/main_ws/devel/lib/libturtlebot_control.so CMakeFiles/turtlebot_control.dir/src/turtlebot_control.cpp.o 

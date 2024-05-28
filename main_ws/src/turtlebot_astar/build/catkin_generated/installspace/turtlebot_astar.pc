@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: turtlebot_astar
+Description: Description of turtlebot_astar
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
