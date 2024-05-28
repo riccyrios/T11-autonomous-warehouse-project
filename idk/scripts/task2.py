@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 # TSP Solver Output Processing Node
-# This node is responsible for executing the TSP solver with the generated problem instance and processing its output.
+# This node is responsible for executing 
+# the TSP solver with the generated problem 
+# instance and processing its output.
 
 import rospy
 import subprocess
@@ -29,6 +31,16 @@ def run_tsp_solver():
 
 def is_file_empty(SOLUTION_FILE_PATH):
   return os.stat(SOLUTION_FILE_PATH).st_size == 0
+
+def delete_old_tour_files():
+    global directory
+    directory = "/home/chloe/Downloads/LKH-3.0.9/"
+    global pattern
+    pattern = re.compile(r"Tour_(?:[0-9]|1[0-9]|20)\.txt")
+    for filename in os.listdir(directory):
+      if pattern.match(filename):
+         os.remove(os.path.join(directory, filename))
+         print("Deleted: " + filename)
 
 def node_mapping():
     with open(CONVERSION_FILE_PATH, 'r') as f:
@@ -64,7 +76,7 @@ def write_first_tour_to_file(tour, mapping, BO):
         file.write("[" + coordinates_str + "]")
 
 def publish_tours(tours):
-  rospy.init_node(NODE_NAME, anonymous = True)
+  #rospy.init_node(NODE_NAME, anonymous = True)
 
   for i, nodes in enumerate(tours):
     #*** Create a unique topic name for each tour to be published to***#
@@ -73,15 +85,15 @@ def publish_tours(tours):
     #*** Create a publisher for the current tour topic***!
     tour_publisher = rospy.Publisher(tour_topic, Tour, queue_size = 10)
 
-    #*** Create a Tour message***#
+    #*** Create a Tour message ***#
     tour_msg = Tour()
     #*** Breaking stuff, uncomment if this limps all over my bizkists
     tour_msg.nodes = nodes
 
-    #*** Publish the Tour message***#
+    #*** Publish the Tour message ***#
     tour_publisher.publish(tour_msg)
 
-    ##### Adjust the sleep time 
+    ##### Adjust the sleep time ***#
     rospy.sleep(1)
 
 def coordinate_mapping():
@@ -93,29 +105,47 @@ def coordinate_mapping():
 
 def map_tours_to_coordinates(tours, coord_mapping):
     for i, tour in enumerate(tours):
-        tours[i] = [coord_mapping.get(node) for node in tour]
+        tours[i] = [coord_mapping.get(node) + (0,) for node in tour]
     return tours
 
+"""
 def write_coordinate_tour_to_file(tour, file_path):
    with open(file_path, 'w') as file:
       coordinates_str = ', '.join(str(coordinate) for coordinate in tour)
       file.write("[" + coordinates_str + "]")
+"""
+
+def write_coordinate_tour_to_file(tour, file_path):
+   with open(file_path, 'w') as file:
+      for i, coordinate in enumerate(tour):
+         if i == len(tour) - 1:
+            file.write(str(coordinate) + "\n")
+         else:
+            file.write(str(coordinate) + ",\n")
+
 
 def main():
-  rospy.init_node(NODE_NAME, anonymous = True)
+  #rospy.init_node(NODE_NAME, anonymous = True)
   run_tsp_solver()
+  delete_old_tour_files()
   cmapping = coordinate_mapping()
+  mapping = node_mapping()
 
   print_flag = True
-
   while not rospy.is_shutdown():
     tours = parse_solution_file()
   
     cmapped_tours = map_tours_to_coordinates(tours, cmapping)
+
+    tours = parse_solution_file()
+
+    mapped_tours = map_tours(tours, mapping)
+
+    publish_tours(mapped_tours)
     
     if print_flag:
       for i, nodes in enumerate(tours):
-        print("Tour_" + str(i) + " written to file: Tour_" + str(i) + ": " + "[" +' '.join(map(str, nodes)) + "]")
+        print("Tour_" + str(i) + " written to file and topic: Tour_" + str(i) + ": " + "[" +' '.join(map(str, nodes)) + "]")
         file_path = "/home/chloe/Downloads/LKH-3.0.9/Tour_{}.txt".format(i)
         write_coordinate_tour_to_file(cmapped_tours[i], file_path)
       # Set the print_flag to False after printing the tours once
@@ -126,6 +156,8 @@ if __name__ == '__main__':
   if not is_file_empty(SOLUTION_FILE_PATH):
     print('File is not empty')
   else:
-    print('TSP didn\'t write the best tour to the solution file')
+    print('File is empty')
+
+  rospy.init_node(NODE_NAME, anonymous = True)
 
   main()

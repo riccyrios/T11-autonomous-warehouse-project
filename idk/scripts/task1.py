@@ -15,8 +15,8 @@ NODE_NAME = "taskGeneration"
 #*** File Paths for writing ***#
 """Change to your own filepaths if you run on your own machine"""
 
-TASK_CONVERSION_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/MTSP_TEST_CONVERSION.txt"
-TASK_COORDINATES_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/MTSP_TEST_COORDINATES.txt"
+CONVERSION_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/MTSP_TEST_CONVERSION.txt"
+COORDINATE_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/MTSP_TEST_COORDINATES.txt"
 PAR_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/MTSP_TEST.par"
 TASK_GENERATION_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/MTSP_TEST.txt"
 BOS_EDGE_WEIGHTS_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/Bos_Path_Planning_Output.txt"
@@ -48,6 +48,8 @@ NODE_COORDINATES = {
 
 original_to_reference_mapping = {}
 selected_nodes = []
+num_nodes_to_pick = 0
+num_salesmen = 0
 
 #*** Random Node Picking process for the parameter file ***#
 """ 1. Pick the Dock node
@@ -122,7 +124,7 @@ def task_generation(num_nodes_to_pick):
         #*** MTSP_OBJECTIVE = MINSUM: The objective is to minimize the total distance traveled by all salesmen.
 
     #*** Write the original, reference, and coordinates to the conversion file ***#
-    with open(TASK_CONVERSION_FILE_PATH, 'w') as file:
+    with open(CONVERSION_FILE_PATH, 'w') as file:
         #file.write("Ref | Orig | Coord\n\n")
         file.write("{\n")
         for reference, original, (x, y) in selected_nodes:
@@ -133,7 +135,7 @@ def task_generation(num_nodes_to_pick):
         file.truncate()  # Remove the last 2 characters
         file.write("\n}")
 
-    with open(TASK_COORDINATES_FILE_PATH, 'w') as file:
+    with open(COORDINATE_FILE_PATH, 'w') as file:
         file.write("{\n")
         for reference, original, (x, y) in selected_nodes:
             file.write('    "{}": [{}, {}],\n'.format(reference, x, y))
@@ -189,28 +191,31 @@ def node_picking_num():
     num_nodes_to_pick = int(input("Enter the pick list length (up to " + str(num_valid_entries) + "): "))
     return num_nodes_to_pick
 
+def main():
+  try:
+        global num_nodes_to_pick
+        num_nodes_to_pick = node_picking_num()
+        global num_salesmen
+        num_salesmen = int(input("Enter the number of Teenage Mutant Ninja Turtlebots: "))
+
+        if (num_nodes_to_pick, num_salesmen) == (1, 1):
+            print("Generating a task list with 1 node for 1 Turtlebot...")
+        elif num_nodes_to_pick == 1:
+            if num_salesmen > num_nodes_to_pick:
+                print("Seriously -_-...? This is a bit redundant...")
+            print("Generating a task list with 1 node for {} Turtlebots...".format(num_salesmen))
+        elif num_salesmen == 1:
+            print("Generating a task list with {} nodes for 1 Turtlebot...".format(num_nodes_to_pick))
+        else:
+            print("Generating a problem instance with {} nodes for {} Turtlebots...".format(num_nodes_to_pick, num_salesmen))
+
+        task_generation(num_nodes_to_pick)
+
+        print('Reference to Original Node Mapping:', original_to_reference_mapping)
+        print('Node List:', selected_nodes)
+  except rospy.ROSInterruptException:
+    pass    
+
 
 if __name__ == '__main__':
-  try:
-    
-    num_nodes_to_pick = node_picking_num()
-    num_salesmen = int(input("Enter the number of Teenage Mutant Ninja Turtlebots: "))
-
-    if (num_nodes_to_pick, num_salesmen) == (1, 1):
-        print("Generating a task list with 1 node for 1 Turtlebot...")
-    elif num_nodes_to_pick == 1:
-        if num_salesmen > num_nodes_to_pick:
-            print("Seriously -_-...? This is a bit redundant...")
-        print("Generating a task list with 1 node for {} Turtlebots...".format(num_salesmen))
-    elif num_salesmen == 1:
-        print("Generating a task list with {} nodes for 1 Turtlebot...".format(num_nodes_to_pick))
-    else:
-        print("Generating a problem instance with {} nodes for {} Turtlebots...".format(num_nodes_to_pick, num_salesmen))
-
-    task_generation(num_nodes_to_pick)
-
-    print('Reference to Original Node Mapping:', original_to_reference_mapping)
-    print('Node List:', selected_nodes)
-
-  except rospy.ROSInterruptException:
-    pass
+    main()

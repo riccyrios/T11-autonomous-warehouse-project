@@ -11,11 +11,12 @@ TurtlebotControl::TurtlebotControl(ros::NodeHandle nh, int ID): nh_(nh), turtleb
     odom_info_ = nh_.subscribe("/odom", 1, &TurtlebotControl::odoCallback, this);
     //cmd_vel_pub = nh_.advertise<geometry_msgs::Twist>("/tb"+std::to_string(turtlebot_ID_)+"/cmd_vel", 1);
     cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
+
     // potentially add the waypoint publisher, we should subscribe to a ros topic that subscribes to the waypoints being published by path planning node
     //waypoints_sub_ = nh_.subscribe("/waypoints", 1, &TurtlebotControl::setWaypoints, this);
 
     linear_tolerance_ = 0.1;
-    angular_tolerance_ = 1*M_PI/180; //might need to make this tolerance smaller too wide right now i think
+    angular_tolerance_ = 5*M_PI/180; //might need to make this tolerance smaller too wide right now i think
 }
 
 //void TurtlebotControl::setWaypoints(const std::vector<geometry_msgs::Point>::ConstPtr& waypoints){
@@ -25,7 +26,6 @@ void TurtlebotControl::setWaypoints(std::vector<geometry_msgs::Point> waypoints)
     std::cout << "setwaypoints function started for turtlebot" << std::endl;
 
     // this is where i'll accept the points from Bo, subscribe to the topic that publishes the waypoints
-    
 
     // Set the waypoints
     waypoints_ = waypoints;
@@ -247,7 +247,7 @@ void TurtlebotControl::moveTurtlebot(){
                 double dx = waypoints_[waypoint_index].x - odo_.pose.pose.position.x;
                 double dy = waypoints_[waypoint_index].y - odo_.pose.pose.position.y;
                 bot_rotation = rotationAngle(dx, dy);
-                ang_vel = 0.3*bot_rotation;
+                ang_vel = 0.4*bot_rotation;
                 std::cout << "bot_rotation in rotating loop: " << bot_rotation << std::endl;
                 sendCommand(0, ang_vel);
                 ros::spinOnce();
