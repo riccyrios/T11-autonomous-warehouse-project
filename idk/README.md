@@ -13,17 +13,17 @@ An executable file called LKH will now be available in the directory LKLH-3.0.9.
 
 My files include different versions:
 - TSP instance:
-	calculates cost by reading B's full distance matrix file
-	publishes node reference numbers to tour_0 topic
-	TSP1py, TSP2.py, TSPMain.py
+	-calculates cost by reading B's full distance matrix file
+	-publishes node reference numbers to tour_0 topic
+	-TSP1py, TSP2.py, TSPMain.py
 - mTSP instance:
-	calculates cost by reading B's full distance matrix file
-	publishes node reference numbers to tour_(i) topics
+	-calculates cost by reading B's full distance matrix file
+	-publishes node reference numbers to tour_(i) topics
 - mTSP instance:
-	*** You'll have to manually change the file paths in the first two code files
-	calculates costs by the Manhattan Distance between node coordinates
-	published node reference numbers to tour_(i) topics	
-	task1.py, task2.py, mainTask.py???
+	-*** You'll have to manually change the file paths in the first two code files
+	-calculates costs by the Manhattan Distance between node coordinates
+	-published node reference numbers to tour_(i) topics	
+	-task1.py, task2.py, mainTask.py???
 
 ## Before you can run my code:
 Save the "idk" package to your catkin_ws.
