@@ -16,8 +16,14 @@ NODE_NAME = "taskGeneration"
 
 #*** File Paths for reading/writing ***#
 """Change to your own filepaths if you run on your own machine"""
-
 base_path = os.path.join(os.path.expanduser("~"), "Downloads/LKH-3.0.9")
+
+#CONVERSION_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/TSP_CONVERSION.txt"
+#COORDINATE_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/TSP_COORDINATE.txt"
+#PAR_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/TSP_TEST.par"
+#TASK_GENERATION_FILE_PATH = "/home/chloe/Downloads/LKH-3.0.9/TSP_TEST.txt"
+#BO = "/home/chloe/Downloads/LKH-3.0.9/distance_matrix.txt"
+#NEW_MATRIX = "/home/chloe/Downloads/LKH-3.0.9/matrixMaker.txt"
 
 CONVERSION_FILE_PATH = os.path.join(base_path, "TSP_CONVERSION.txt")
 COORDINATE_FILE_PATH = os.path.join(base_path, "TSP_COORDINATE.txt")
@@ -27,6 +33,7 @@ BO = os.path.join(base_path, "distance_matrix.txt")
 NEW_MATRIX = os.path.join(base_path, "matrixMaker.txt")
 
 #*** Make a global dictionary for other nodes to access ***#
+
 NODE_COORDINATES = {
     0: (0.00, 0.00),
     1: (-2.913, 4.222),
