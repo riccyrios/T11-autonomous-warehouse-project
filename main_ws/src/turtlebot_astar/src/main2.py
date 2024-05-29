@@ -4,6 +4,8 @@ import numpy as np
 import utils
 import algo
 
+TOUR_FILEPATH = "/home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9/Tour_0.txt"
+
 def main():
     clearance = 0.1
     rpm = [6, 4]
@@ -113,7 +115,7 @@ def main():
     # mode 3 generate paths to a list of goal points
     elif mode == 3:
         goal_points = []
-        with open('goals.txt', 'r') as file:
+        with open(TOUR_FILEPATH, 'r') as file:
             lines = file.readlines()
             for line in lines:
                 points = line.strip().replace('(', '').replace(')', '').split(',')
