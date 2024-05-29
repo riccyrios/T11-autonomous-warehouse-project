@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20240528-0247-Experimental"
+	Name="riccrios-MACH-WX9"
+	Generator="ctest-3.16.3"
+	CompilerName="/usr/bin/c++"
+	CompilerVersion="9.4.0"
+	OSName="Linux"
+	Hostname="riccrios-MACH-WX9"
+	OSRelease="5.15.0-105-generic"
+	OSVersion="#115~20.04.1-Ubuntu SMP Mon Apr 15 17:33:04 UTC 2024"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="142"
+	ProcessorCacheSize="6144"
+	NumberOfLogicalCPU="8"
+	NumberOfPhysicalCPU="4"
+	TotalVirtualMemory="2047"
+	TotalPhysicalMemory="7687"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="1692.49"
+	>
+	<Testing>
+		<StartDateTime>May 28 12:47 AEST</StartDateTime>
+		<StartTestTime>1716864448</StartTestTime>
+		<TestList/>
+		<EndDateTime>May 28 12:47 AEST</EndDateTime>
+		<EndTestTime>1716864448</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

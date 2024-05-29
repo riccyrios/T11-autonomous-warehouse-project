@@ -8,5 +8,7 @@
 
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/ubuntu/git/T11_multi_warehouse/main_ws/src/turtlebot_project/build/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/ubuntu/git/T11_multi_warehouse/main_ws/src/turtlebot_project/build/devel/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="/home/ubuntu/git/T11_multi_warehouse/main_ws/src/turtlebot_project/build/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export ROSLISP_PACKAGE_DIRECTORIES="/home/ubuntu/git/T11_multi_warehouse/main_ws/src/turtlebot_project/build/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/ubuntu/git/T11_multi_warehouse/main_ws/src/turtlebot_project:$ROS_PACKAGE_PATH"

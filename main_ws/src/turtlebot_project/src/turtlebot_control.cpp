@@ -260,7 +260,7 @@ void TurtlebotControl::moveTurtlebot(){
             std::cout << "distance to point: " << distance_to_point << std::endl;
 
             ROS_INFO("Turtlebot is facing the target!");
-            lin_vel = 0.3;
+            lin_vel = 0.1;
             ang_vel = 0;
         
             ROS_INFO_STREAM("Linear FT Velocity: " << lin_vel);
