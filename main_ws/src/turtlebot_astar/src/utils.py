@@ -305,7 +305,9 @@ walls = [
     (3.44, 2.79),
     (2.93, 0.5),
     (0.18, -0.66),
-    (3.24, 1.99)
+    (3.24, 1.99),
+    # vent 1
+    (0.336, 0.500)
 ]
 
 # Function to check if the given point lies outside the final map or in the obstacle space

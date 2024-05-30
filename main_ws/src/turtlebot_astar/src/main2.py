@@ -4,44 +4,43 @@ import numpy as np
 import utils
 import algo
 
-TOUR_FILEPATH = "/home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9/Tour_0.txt"
-
 def main():
     clearance = 0.1
     rpm = [6, 4]
-    robot_radius = 0.089
+    # robot_radius = 0.089
+    robot_radius = 0.1
     mode = 3
+    epsilon = 0.2
 
     NODE_COORDINATES = {
     0: (0.00, 0.00), # Dock
-    1: (-2.913, 4.222),
-    2: (-2.532, 4.162),
-    3: (-0.890, 4.022),
-    4: (-0.460, 3.972),
-    5: (1.081, 3.892),
-    6: (1.461, 3.852),
-    7: (1.431, 3.342),
-    8: (1.051, 3.392),
-    9: (-0.440, 3.532),
-    10: (-0.910, 3.572),
-    # 11: (-2.532, 3.722),
-    11: (-2.547, 3.722),
-    12: (-2.913, 3.762),
-    13: (1.251, 1.841),
-    14: (0.89, 1.821),
-    15: (-0.66, 1.951),
-    16: (-1.061, 1.981),
-    17: (-2.662, 2.161),
-    18: (-3.093, 2.181),
-    19: (1.231, 1.29),
-    20: (0.84, 1.34)
+    1: (2.525, 1.993),
+    2: (2.782, 4.615),
+    3: (0.922, 4.843),
+    4: (0.399, 4.815),
+    5: (-2.513, 5.196),
+    6: (-3.338, 5.459),
+    7: (-4.011, 5.418),
+    8: (-4.035, 4.801),
+    9: (-2.771, 4.324),
+    10: (-0.738, 3.522),
+    11: (1.189, 3.916),
+    12: (1.118, 3.321),
+    13: (-0.757, 4.034),
+    14: (-2.809, 3.681), 
+    15: (-4.197, 3.459),
+    16: (-4.259, 2.775),
+    17: (-2.847, 2.256),
+    18: (-0.910, 1.972),
+    19: (0.900, 2.035),
+    20: (1.032, 1.316)
     }
 
     # mode 0 calculate chosen row
     if mode == 0:
         distances_from_node_0 = []
         for i in range(1, 21):
-            start_point = [NODE_COORDINATES[11][0], NODE_COORDINATES[11][1], 0]
+            start_point = [NODE_COORDINATES[6][0], NODE_COORDINATES[6][1], 0]
             
             goal_point = [NODE_COORDINATES[i][0], NODE_COORDINATES[i][1]]
             print(f"Calculating path from {start_point} to {goal_point}")
@@ -115,7 +114,7 @@ def main():
     # mode 3 generate paths to a list of goal points
     elif mode == 3:
         goal_points = []
-        with open(TOUR_FILEPATH, 'r') as file:
+        with open('goals.txt', 'r') as file:
             lines = file.readlines()
             for line in lines:
                 points = line.strip().replace('(', '').replace(')', '').split(',')
@@ -123,13 +122,15 @@ def main():
         paths = []
         start_point = (0, 0, 0)
 
-        # Find paths between start_location and the first goal, then between each consecutive goal
         for goal in goal_points:
             goal_point = goal
             s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
             path, explored = s1.astar()
             if path:
+                path = rdp(path, epsilon)  # Apply RDP algorithm to smooth the path
+                path.append(goal)
                 paths.append(path)
+                
             start_point = goal_point
 
         # Write paths to paths.txt
@@ -137,7 +138,39 @@ def main():
             for path in paths:
                 path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
                 file.write(path_str + '\n')
+
         
+def rdp(points, epsilon):
+    """
+    Ramer-Douglas-Peucker algorithm to reduce points in a path.
+    :param points: List of (x, y) tuples.
+    :param epsilon: Tolerance for simplifying.
+    :return: Simplified path.
+    """
+    if len(points) < 3:
+        return points
+
+    def point_line_distance(point, start, end):
+        if start == end:
+            return np.linalg.norm(np.array(point) - np.array(start))
+        else:
+            return np.abs(np.cross(np.array(end) - np.array(start), np.array(start) - np.array(point)) / np.linalg.norm(np.array(end) - np.array(start)))
+
+    start, end = points[0], points[-1]
+    max_dist = 0
+    index = 0
+    for i in range(1, len(points) - 1):
+        dist = point_line_distance(points[i], start, end)
+        if dist > max_dist:
+            index = i
+            max_dist = dist
+
+    if max_dist > epsilon:
+        result1 = rdp(points[:index + 1], epsilon)
+        result2 = rdp(points[index:], epsilon)
+        return result1[:-1] + result2
+    else:
+        return [start, end]
 
 def calculate_distance(path):
     total_distance = 0

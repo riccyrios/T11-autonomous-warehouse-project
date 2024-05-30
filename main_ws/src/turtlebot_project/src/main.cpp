@@ -42,7 +42,7 @@ int main (int argc, char **argv){
 
     std::cout << "reading file..." << std::endl;
 
-    std::ifstream file("/home/ubuntu/git/T11_multi_warehouse/main_ws/src/turtlebot_project/src/paths.txt");
+    std::ifstream file("/home/ubuntu/catkin_ws/src/turtlebot_project/src/paths.txt");
 
     std::cout << "file trying to open " << std::endl;
 

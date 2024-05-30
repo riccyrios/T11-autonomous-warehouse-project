@@ -16,7 +16,7 @@ TurtlebotControl::TurtlebotControl(ros::NodeHandle nh, int ID): nh_(nh), turtleb
     //waypoints_sub_ = nh_.subscribe("/waypoints", 1, &TurtlebotControl::setWaypoints, this);
 
     linear_tolerance_ = 0.1;
-    angular_tolerance_ = 5*M_PI/180; //might need to make this tolerance smaller too wide right now i think
+    angular_tolerance_ = 6*M_PI/180; //might need to make this tolerance smaller too wide right now i think
 }
 
 //void TurtlebotControl::setWaypoints(const std::vector<geometry_msgs::Point>::ConstPtr& waypoints){
@@ -260,7 +260,7 @@ void TurtlebotControl::moveTurtlebot(){
             std::cout << "distance to point: " << distance_to_point << std::endl;
 
             ROS_INFO("Turtlebot is facing the target!");
-            lin_vel = 0.1;
+            lin_vel = 0.3;
             ang_vel = 0;
         
             ROS_INFO_STREAM("Linear FT Velocity: " << lin_vel);
@@ -282,7 +282,7 @@ void TurtlebotControl::moveTurtlebot(){
 
         double velocity = getVelocity(odo_);
         
-        while (velocity > 0.11) {
+        while (velocity > 0.3) {
             stopTurtlebot();
             ROS_INFO("STOPPING TURTLEBOT");
             std::cout << "linear velocity: " << velocity << std::endl; 
