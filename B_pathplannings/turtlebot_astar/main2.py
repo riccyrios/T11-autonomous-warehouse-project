@@ -9,7 +9,11 @@ def main():
     clearance = 0.1
     rpm = [8, 8]
     robot_radius = 0.089
-    mode = 2
+    mode = 3
+    # mode 0 calculate chosen row
+    # mode 1 calculate path from node a to node b
+    # mode 2 calculate distance matrix
+    # mode 3 generate paths to a list of goal points
 
     NODE_COORDINATES = {
         0: (0.00, 0.00), # Dock
@@ -149,9 +153,10 @@ def main():
             s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
             path, explored = s1.astar()
             if path: 
-                threshold = 0.3  # Distance threshold
-                path = filter_close_points(path, threshold)
-                paths.append(path)
+                threshold = 0.3  # Distance threshold - the higher the value, the more points will be removed
+                path1 = filter_close_points(path, threshold)
+                path1.append(goal) # add the goal into the path
+                paths.append(path1)
             start_point = goal_point
 
         # Write paths to paths.txt
@@ -159,6 +164,7 @@ def main():
             for path in paths:
                 path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
                 file.write(path_str + '\n')
+        print("Paths written to paths.txt")
         
 
 def calculate_distance(path):
