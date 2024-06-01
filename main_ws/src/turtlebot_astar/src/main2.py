@@ -9,7 +9,7 @@ def main():
     rpm = [6, 4]
     # robot_radius = 0.089
     robot_radius = 0.1
-    mode = 3
+    mode = 2
     epsilon = 0.2
 
     NODE_COORDINATES = {
@@ -18,9 +18,9 @@ def main():
     2: (2.2, 5.2), #works
     3: (0.4, 5.2), #works
     4: (-0.9, 5.2), #works
-    5: (-2.7, 5.2), #works
+    5: (-2.6, 5.2), #works
     6: (-3.8, 5.2), #works
-    7: (-3.8, 4.5), #works
+    7: (-3.8, 4.6), #works
     8: (-2.7, 4.5), #works
     9: (-3.4, 4.2), #works
     10: (-1.15, 4.2), #works
@@ -29,8 +29,8 @@ def main():
     13: (-1.15, 3.5), #works
     14: (-3.4, 3.4), #works
     15: (-4, 3.1), #works
-    16: (-4, 2.3), #works
-    17: (-3.4, 1.9), #works
+    16: (-4, 2.7), #works
+    17: (-3.3, 1.9), #works
     18: (-1.25, 1.9), #works
     19: (0.9, 1.9), #works
     20: (0.9, 1.5) #works
@@ -40,7 +40,7 @@ def main():
     if mode == 0:
         distances_from_node_0 = []
         for i in range(1, 21):
-            start_point = [NODE_COORDINATES[6][0], NODE_COORDINATES[6][1], 0]
+            start_point = [NODE_COORDINATES[5][0], NODE_COORDINATES[5][1], 0]
             
             goal_point = [NODE_COORDINATES[i][0], NODE_COORDINATES[i][1]]
             print(f"Calculating path from {start_point} to {goal_point}")
@@ -114,39 +114,40 @@ def main():
     # mode 3 generate paths to a list of goal points
     elif mode == 3:
         goal_points = []
-        with open('goals.txt', 'r') as file:
+        with open('/home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9', 'r') as file:
             lines = file.readlines()
             for line in lines:
                 points = line.strip().replace('(', '').replace(')', '').split(',')
                 goal_points.append((float(points[0]), float(points[1]), 0))
+
         paths = []
         start_point = (0, 0, 0)
 
         for goal in goal_points:
+            print(f"Processing goal: {goal}")
             goal_point = goal
             s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
-            path, explored = s1.astar()
-            if path:
-                path = rdp(path, epsilon)  # Apply RDP algorithm to smooth the path
-                path.append(goal)
-                paths.append(path)
-                
-            start_point = goal_point
+            try:
+                path, explored = s1.astar()
+                if path:
+                    print(f"Path found to goal {goal}: {path}")
+                    path = rdp(path, epsilon)  # Apply RDP algorithm to smooth the path
+                    path.append(goal)
+                    paths.append(path)
+                    start_point = goal_point  # Update start point to current goal point
+                else:
+                    print(f"No valid path found to goal {goal}.")
+            except Exception as e:
+                print(f"Error while calculating path to goal {goal}: {e}")
 
         # Write paths to paths.txt
         with open('paths.txt', 'w') as file:
             for path in paths:
                 path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
                 file.write(path_str + '\n')
-
         
 def rdp(points, epsilon):
-    """
-    Ramer-Douglas-Peucker algorithm to reduce points in a path.
-    :param points: List of (x, y) tuples.
-    :param epsilon: Tolerance for simplifying.
-    :return: Simplified path.
-    """
+
     if len(points) < 3:
         return points
 
@@ -183,5 +184,4 @@ def calculate_distance(path):
 
 if __name__ == "__main__":
     main()
-
 
