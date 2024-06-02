@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Site BuildName="(empty)"
-	BuildStamp="20240511-1000-Experimental"
+	BuildStamp="20240531-1231-Experimental"
 	Name="riccrios-MACH-WX9"
 	Generator="ctest-3.16.3"
 	CompilerName="/usr/bin/c++"
 	CompilerVersion="9.4.0"
 	OSName="Linux"
 	Hostname="riccrios-MACH-WX9"
-	OSRelease="5.15.0-102-generic"
-	OSVersion="#112~20.04.1-Ubuntu SMP Thu Mar 14 14:28:24 UTC 2024"
+	OSRelease="5.15.0-105-generic"
+	OSVersion="#115~20.04.1-Ubuntu SMP Mon Apr 15 17:33:04 UTC 2024"
 	OSPlatform="x86_64"
 	Is64Bits="1"
 	VendorString="GenuineIntel"
@@ -21,14 +21,14 @@
 	TotalVirtualMemory="2047"
 	TotalPhysicalMemory="7687"
 	LogicalProcessorsPerPhysical="2"
-	ProcessorClockFrequency="699.999"
+	ProcessorClockFrequency="1632"
 	>
 	<Testing>
-		<StartDateTime>May 11 20:00 AEST</StartDateTime>
-		<StartTestTime>1715421617</StartTestTime>
+		<StartDateTime>May 31 22:37 AEST</StartDateTime>
+		<StartTestTime>1717159068</StartTestTime>
 		<TestList/>
-		<EndDateTime>May 11 20:00 AEST</EndDateTime>
-		<EndTestTime>1715421617</EndTestTime>
+		<EndDateTime>May 31 22:37 AEST</EndDateTime>
+		<EndTestTime>1717159068</EndTestTime>
 		<ElapsedMinutes>0</ElapsedMinutes>
 	</Testing>
 </Site>

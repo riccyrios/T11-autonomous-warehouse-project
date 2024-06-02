@@ -2566,18 +2566,6 @@
 			"value" : "/opt/ros/noetic/share/message_runtime/cmake"
 		},
 		{
-			"name" : "move_base_msgs_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "The directory containing a CMake configuration file for move_base_msgs."
-				}
-			],
-			"type" : "PATH",
-			"value" : "/opt/ros/noetic/share/move_base_msgs/cmake"
-		},
-		{
 			"name" : "nav_msgs_DIR",
 			"properties" : 
 			[

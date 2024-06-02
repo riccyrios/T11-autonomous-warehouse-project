@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Site BuildName="(empty)"
-	BuildStamp="20240528-0247-Experimental"
+	BuildStamp="20240602-0842-Experimental"
 	Name="riccrios-MACH-WX9"
 	Generator="ctest-3.16.3"
 	CompilerName="/usr/bin/c++"
@@ -21,14 +21,14 @@
 	TotalVirtualMemory="2047"
 	TotalPhysicalMemory="7687"
 	LogicalProcessorsPerPhysical="2"
-	ProcessorClockFrequency="1692.49"
+	ProcessorClockFrequency="1800"
 	>
 	<Testing>
-		<StartDateTime>May 28 12:47 AEST</StartDateTime>
-		<StartTestTime>1716864448</StartTestTime>
+		<StartDateTime>Jun 02 19:22 AEST</StartDateTime>
+		<StartTestTime>1717320140</StartTestTime>
 		<TestList/>
-		<EndDateTime>May 28 12:47 AEST</EndDateTime>
-		<EndTestTime>1716864448</EndTestTime>
+		<EndDateTime>Jun 02 19:22 AEST</EndDateTime>
+		<EndTestTime>1717320140</EndTestTime>
 		<ElapsedMinutes>0</ElapsedMinutes>
 	</Testing>
 </Site>
