@@ -3,36 +3,62 @@ import matplotlib.pyplot as plt
 import numpy as np
 import utils
 import algo
+import math
 
 def main():
     clearance = 0.1
-    rpm = [6, 4]
+    rpm = [8, 8]
     robot_radius = 0.089
     mode = 3
+    # mode 0 calculate chosen row
+    # mode 1 calculate path from node a to node b
+    # mode 2 calculate distance matrix
+    # mode 3 generate paths to a list of goal points
 
     NODE_COORDINATES = {
-    0: (0.00, 0.00), # Dock
-    1: (-2.913, 4.222),
-    2: (-2.532, 4.162),
-    3: (-0.890, 4.022),
-    4: (-0.460, 3.972),
-    5: (1.081, 3.892),
-    6: (1.461, 3.852),
-    7: (1.431, 3.342),
-    8: (1.051, 3.392),
-    9: (-0.440, 3.532),
-    10: (-0.910, 3.572),
-    # 11: (-2.532, 3.722),
-    11: (-2.547, 3.722),
-    12: (-2.913, 3.762),
-    13: (1.251, 1.841),
-    14: (0.89, 1.821),
-    15: (-0.66, 1.951),
-    16: (-1.061, 1.981),
-    17: (-2.662, 2.161),
-    18: (-3.093, 2.181),
-    19: (1.231, 1.29),
-    20: (0.84, 1.34)
+        0: (0.00, 0.00), # Dock
+        1: (2.525, 1.993),
+        2: (2.782, 4.615),
+        3: (0.922, 4.843),
+        4: (0.399, 4.815),
+        5: (-2.513, 5.196),
+        6: (-3.338, 5.459),
+        7: (-4.011, 5.418),
+        8: (-4.035, 4.801),
+        9: (-2.771, 4.324),
+        10: (-0.738, 3.522),
+        11: (1.189, 3.916),
+        12: (1.118, 3.321),
+        13: (-0.757, 4.034),
+        14: (-2.809, 3.681), 
+        15: (-4.197, 3.459),
+        16: (-4.259, 2.775),
+        17: (-2.847, 2.256),
+        18: (-0.910, 1.972),
+        19: (0.900, 2.035),
+        20: (1.032, 1.316)
+    # 0: (0.00, 0.00), # Dock
+    # 1: (-2.913, 4.222),
+    # 2: (-2.532, 4.162),
+    # 3: (-0.890, 4.022),
+    # 4: (-0.460, 3.972),
+    # 5: (1.081, 3.892),
+    # 6: (1.461, 3.852),
+    # 7: (1.431, 3.342),
+    # 8: (1.051, 3.392),
+    # 9: (-0.440, 3.532),
+    # 10: (-0.910, 3.572),
+    # # 11: (-2.532, 3.722),
+    # 11: (-2.547, 3.722),
+    # 12: (-2.913, 3.762),
+    # 13: (1.251, 1.841),
+    # 14: (0.89, 1.821),
+    # 15: (-0.66, 1.951),
+    # 16: (-1.061, 1.981),
+    # 17: (-2.662, 2.161),
+    # 18: (-3.093, 2.181),
+    # 19: (1.231, 1.29),
+    # 20: (0.84, 1.34)
     }
 
     # mode 0 calculate chosen row
@@ -126,8 +152,11 @@ def main():
             goal_point = goal
             s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
             path, explored = s1.astar()
-            if path:
-                paths.append(path)
+            if path: 
+                threshold = 0.3  # Distance threshold - the higher the value, the more points will be removed
+                path1 = filter_close_points(path, threshold)
+                path1.append(goal) # add the goal into the path
+                paths.append(path1)
             start_point = goal_point
 
         # Write paths to paths.txt
@@ -135,6 +164,7 @@ def main():
             for path in paths:
                 path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
                 file.write(path_str + '\n')
+        print("Paths written to paths.txt")
         
 
 def calculate_distance(path):
@@ -145,6 +175,18 @@ def calculate_distance(path):
         distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
         total_distance += distance
     return round(total_distance, 2)
+
+def distance(point1, point2):
+    return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
+
+def filter_close_points(path, threshold):
+  filtered_path = [path[0]]  # Start with the first point
+
+  for point in path[1:]:
+      if distance(filtered_path[-1], point) >= threshold:
+          filtered_path.append(point)
+
+  return filtered_path
 
 if __name__ == "__main__":
     main()
