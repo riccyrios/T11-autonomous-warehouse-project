@@ -200,7 +200,7 @@ class Node():
         # print('No path found!')
         return None, self.explored
         
-      if ((min_cost_child[0] - self.goal_node[0]) ** 2 + (min_cost_child[1] - self.goal_node[1]) ** 2) <= 0.25 ** 2:
+      if ((min_cost_child[0] - self.goal_node[0]) ** 2 + (min_cost_child[1] - self.goal_node[1]) ** 2) <= 0.05 ** 2:
         final_node_key =  (min_cost_child[0], min_cost_child[1], min_cost_child[2])
         # print('Goal node found!')
         break 

@@ -7,26 +7,26 @@ import algo
 
 NODE_COORDINATES = {
     0: (0.00, 0.00), # Dock
-    1: (2.525, 1.993),
-    2: (2.782, 4.615),
-    3: (0.922, 4.843),
-    4: (0.399, 4.815),
-    5: (-2.513, 5.196),
-    6: (-3.338, 5.459),
-    7: (-4.011, 5.418),
-    8: (-4.035, 4.801),
-    9: (-2.771, 4.324),
-    10: (-0.738, 3.522),
-    11: (1.189, 3.916),
-    12: (1.118, 3.321),
-    13: (-0.757, 4.034),
-    14: (-2.809, 3.681), 
-    15: (-4.197, 3.459),
-    16: (-4.259, 2.775),
-    17: (-2.847, 2.256),
-    18: (-0.910, 1.972),
-    19: (1.036, 1.896),
-    20: (1.032, 1.316)
+    1: (2.2, 3), #works
+    2: (2.2, 5.2), #works
+    3: (0.4, 5.2), #works
+    4: (-0.9, 5.2), #works
+    5: (-2.6, 5.2), #works
+    6: (-3.8, 5.2), #works
+    7: (-3.8, 4.7), #works
+    8: (-2.7, 4.5), #works
+    9: (-3.4, 4.2), #works
+    10: (-1.15, 4.2), #works
+    11: (0.9, 4.2), #works
+    12: (0.9, 3.4), #works
+    13: (-1.15, 3.5), #works
+    14: (-3.4, 3.4), #works
+    15: (-4, 3.1), #works
+    16: (-4, 2.7), #works
+    17: (-3.3, 2.0), #works
+    18: (-1.25, 1.9), #works
+    19: (0.9, 1.9), #works
+    20: (0.9, 1.5) #works
   }
 
 def main():
@@ -108,71 +108,7 @@ def main():
   
   plt.show()
   plt.close()
-  # Initialize a matrix to store the paths
-  # Initialize a 20x20 matrix with None
-  # distance_matrix = np.full((21, 21), 0.0)
-
-  # # Calculate distances and fill the upper triangle of the matrix
-  # explored = None
-  # for i in range(len(NODE_COORDINATES)):
-  #   start_point = [NODE_COORDINATES[i][1], NODE_COORDINATES[i][2], 0]
-  #   for j in range(i+1, 20):
-  #       goal_point = [NODE_COORDINATES[j][1], NODE_COORDINATES[j][2]]
-  #       s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
-  #       path, explored = s1.astar()
-  #       if path:
-  #           total_distance = sum(((path[k][0] - path[k-1][0]) ** 2 + (path[k][1] - path[k-1][1]) ** 2) ** 0.5 for k in range(1, len(path)))
-  #           distance_matrix[i][j] = round(total_distance, 2)
-  # print('The distance matrix is:')
-  # for row in distance_matrix:
-  #     print(row)
-    
-
-  # # Print the distance matrix
-  # for row in distance_mat
-  
-  
-
-  # clearance = 0.1
-  # rpm = [6, 4]
-  # robot_radius = 0.089
-
-  # def calculate_distance(path):
-  #   total_distance = 0
-  #   for i in range(1, len(path)):
-  #       x1, y1 = path[i-1]
-  #       x2, y2 = path[i]
-  #       distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
-  #       total_distance += distance
-  #   return round(total_distance, 2)
-
-
-  # distance_matrix = np.full((21, 21), None)
-  # for i in NODE_COORDINATES:
-  #   start_point = [NODE_COORDINATES[i][0], NODE_COORDINATES[i][1], 0]
-  #   for j in range(i+1, 21):
-  #     goal_point = [NODE_COORDINATES[j][0], NODE_COORDINATES[j][1]]
-  #     s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
-  #     path, explored = s1.astar()
-  #     if path:
-  #       dis = calculate_distance(path)
-  #       distance_matrix[i][j] = round(dis, 2)
-    
-  # def calculate_distance(path):
-  #   if path:
-  #       return round(sum(((path[k][0] - path[k-1][0]) ** 2 + (path[k][1] - path[k-1][1]) ** 2) ** 0.5 for k in range(1, len(path))), 2)
-  #   return None
-
-  # for i in range(21):
-  #   start_point = [NODE_COORDINATES[i][0], NODE_COORDINATES[i][1], 0]
-  #   for j in range(i+1, 21):
-  #       goal_point = [NODE_COORDINATES[j][0], NODE_COORDINATES[j][1]]
-  #       s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
-  #       path, explored = s1.astar()
-  #       distance_matrix[i][j] = calculate_distance(path)
-
-  # for row in distance_matrix:
-  #     print(row)
+ 
   
 if __name__ == '__main__':
   main()

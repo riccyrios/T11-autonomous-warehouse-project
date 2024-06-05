@@ -20,7 +20,7 @@ NODE_NAME = "taskProcessing"
 """Change to your own filepaths if you run on your own machine"""
 """Feel free to change the file names as well, I have made it a little confusing"""
 
-base_path = os.path.join(os.path.expanduser("~"), "Downloads/LKH-3.0.9")
+base_path = os.path.join(os.path.expanduser("~"), "git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9")
 
 # This is the path to the LKH TSP solver
 #SOLVER_EXECUTABLE_PATH = "/home/chloe/Downloads/LKH-3.0.9/LKH"
@@ -52,9 +52,8 @@ def run_tsp_solver():
 
 # Delete any old TSP files, this is not important for the TSP version, but it is for the mTSP version
 def delete_old_tour_file():
-    # directory = "/home/chloe/Downloads/LKH-3.0.9/"
-    # file_path = os.path.join(directory, "Tour_0")
-    file_path = os.path.join(base_path, "Tour_0")
+    directory = "/home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9/"
+    file_path = os.path.join(directory, "Tour_0")
 
     if os.path.exists(file_path):
         os.remove(file_path)
@@ -125,10 +124,7 @@ def coordinate_mapping():
 # This function, same as map_tours, but for coordinates. It replaces the reference node number with the coordinates of the original node number
 def map_tours_to_coordinates(tours, coord_mapping):
     for i, tour in enumerate(tours):
-        # I changed this, is this bad?
-        # tours[i] = [coord_mapping.get(node) + (0,) for node in tour]
-       tours[i] = [coord_mapping.get(node) for node in tour]
-       
+        tours[i] = [coord_mapping.get(node) + (0,) for node in tour]
     return tours
 
 # THis function writes the tours to a file in the format of a list of coordinates. In TSP, only 1 tour file
@@ -158,7 +154,6 @@ def main():
       for i, nodes in enumerate(tours):
         print("Tour_" + str(i) + " written to file and topic: Tour_" + str(i) + ": " + "[" +' '.join(map(str, nodes)) + "]")
         file_path = "/home/ubuntu/git/T11_multi_warehouse/main_ws/src/idk/LKH-3.0.9/Tour_{}.txt".format(i)
-        # file_path = os.path.join(base_path, "Tour_{}.txt".format(i))
         write_coordinate_tour_to_file(cmapped_tours[i], file_path)
       print_flag = False
 

@@ -146,54 +146,6 @@ void TurtlebotControl::moveTurtlebot(){
         waypoint_index++;
 
         
-
-        // PID controller for steering
-
-        // if (odo_.twist.twist.linear.x > 0.5 || odo_.twist.twist.linear.x < 0.1){
-        //     lin_vel = 0.3;
-        // }
-
-        // if (std::abs(bot_rotation) < 0.1){
-        //     ang_vel = 0;
-
-        //     lin_vel = 0.3;
-        //     ROS_INFO("Turtlebot is facing the target");
-        // }
-
-        
-
-        // // Change the linear velocity halfway through the waypoints
-        // // if (waypoint_index > waypoints_.size()/2){
-        // //     lin_vel = 0.1; 
-        // // }
-
-        // if (distance_to_point < 0.5){
-
-        //     ROS_INFO_STREAM("Reached waypoint: " << waypoint_index);
-
-        //     sendCommand(0, 0);
-
-        //     waypoint_index++;
-            
-        //     // if (waypoint_index >= waypoints_.size()){
-        //     //     ROS_INFO("Reached goal");
-        //     //     sendCommand(0, 0);
-        //     //     return;
-        //     // }
-
-        // }
-
-        // std::cout <<"command about to be sent" << std::endl;
-        // ROS_INFO_STREAM("Linear NFT Velocity: " << lin_vel); 
-        // ROS_INFO_STREAM("Angular NFT Velocity: " << ang_vel);
-        // ROS_INFO_STREAM("Distance to point: " << distance_to_point);
-        // ROS_INFO_STREAM("Odom position: " << odo_.pose.pose.position.x << ", " << odo_.pose.pose.position.y);
-
-
-        // sendCommand(lin_vel, ang_vel);
-
-        // ros::spinOnce();
-        // rate_.sleep();
     }
     std::cout << "reached final goal" << std::endl;
 
