@@ -20,6 +20,7 @@ Gmapping was the first method used to create a static map. Multimapping was used
 
 ### Cartographer 
 Cartographer was the second method used to create a map that continuously updates the map based on probability. The maps are saved as "cart_map.pgm, cart2_map.pgm, cart3_map.pgm and final_cart.pgm"
+
 In the Python scripts, I used the cart3_map.pgm and cart3_map.yaml files.
 
 ### Python3 Scripts
