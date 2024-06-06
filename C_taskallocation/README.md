@@ -24,7 +24,7 @@ My files include different versions:
   - publishes tour node numbers to tour_{i} topic
   - publishes tour coordinates as goemetry messages to tour{i} topic
   - task1.py (old), 1_mTSP_Integration.py, task2.py, taskMain.py (will use old file)
-  - # to use new file "1_mTSP_Integration.py", run files "1_mTSP_Integration.py" and "task2.py" separately, instead of running the "taskMain.py" file. Alternatively, change the "taskMain.py" code to import the new file.
+  - // to use new file "1_mTSP_Integration.py", run files "1_mTSP_Integration.py" and "task2.py" separately, instead of running the "taskMain.py" file. Alternatively, change the "taskMain.py" code to import the new file.
 
 ## Before you can run my code:
 Save the "idk" package to your catkin_ws.
