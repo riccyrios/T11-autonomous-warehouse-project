@@ -165,6 +165,74 @@ def main():
                 path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
                 file.write(path_str + '\n')
         print("Paths written to paths.txt")
+    # mode 4 generate paths for 2 turtlebots but only one goal each
+    elif mode == 4:
+        goal_points_t1 = []
+        with open('goals1.txt', 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                points = line.strip().replace('(', '').replace(')', '').split(',')
+                goal_points_t1.append((float(points[0]), float(points[1]), 0))
+        paths_t1 = []
+        start_point = (0, 0, 0) # Start point for the first turtlebot
+
+        # Find paths between start_location and the first goal, then between each consecutive goal
+        for goal in goal_points_t1:
+            goal_point = goal
+            s1 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
+            path, explored = s1.astar()
+            if path: 
+                threshold = 0.3  # Distance threshold - the higher the value, the more points will be removed
+                path1 = filter_close_points(path, threshold)
+                path1.append(goal) # add the goal into the path
+                paths_t1.append(path1)
+            else:
+                paths_t1.append("None")
+                print('No path found')
+            start_point = goal_point
+
+        # Write paths to paths.txt
+        with open('paths1.txt', 'w') as file:
+            for path in paths_t1:
+                path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
+                file.write(path_str + '\n')
+        print("Paths for first turtlebot written to paths1.txt")
+
+        for path in paths_t1:
+            for p in path:
+                utils.add_obstacle(p)
+
+        start_point = (0, 1, 0) # Start point for the second turtlebot
+        
+        goal_points_t2 = []
+        with open('goals2.txt', 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                points = line.strip().replace('(', '').replace(')', '').split(',')
+                goal_points_t2.append((float(points[0]), float(points[1]), 0))
+        paths_t2 = []
+            
+        # Find paths between start_location and the first goal, then between each consecutive goal
+        for goal in goal_points_t2:
+            goal_point = goal
+            s2 = algo.Node(start_point, goal_point, [0, 0], robot_radius + clearance, rpm[0], rpm[1])
+            path2, explored2 = s2.astar()
+            if path2: 
+                threshold = 0.3  # Distance threshold - the higher the value, the more points will be removed
+                path2 = filter_close_points(path, threshold)
+                path2.append(goal) # add the goal into the path
+                goal_points_t2.append(path2)
+            else:
+                goal_points_t2.append("None")
+                print('No path found')
+            start_point = goal_point
+
+        # Write paths to paths.txt
+        with open('paths2.txt', 'w') as file:
+            for path in paths_t2:
+                path_str = ' '.join(f'({x[0]}, {x[1]})' for x in path)
+                file.write(path_str + '\n')
+        print("Paths for second turtlebot written to paths2.txt")
         
 
 def calculate_distance(path):

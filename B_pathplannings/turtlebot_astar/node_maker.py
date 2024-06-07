@@ -2,8 +2,8 @@
 import math
 
 # Circle parameters
-center_x = 0.383
-center_y = 0.591
+center_x = 0.336
+center_y = 0.589
 radius = 0.16  # Radius in meters
 num_points = 8
 
@@ -22,6 +22,7 @@ for i in range(num_points):
     circle_points.append((x_rounded, y_rounded))
 
 # Print the list of points
+print(f"Cardinal direction points centred at ({center_x}, {center_y}) with radius {radius}:")
 for i, point in enumerate(circle_points):
     print(f"{point},")
 
